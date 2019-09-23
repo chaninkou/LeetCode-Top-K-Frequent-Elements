@@ -3,7 +3,6 @@ package frequentTopK;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +11,10 @@ public class FindTopFrequentElementsFunction {
     	// Key as the element and value as the most repeated element
         Map<Integer, Integer> map = new HashMap<>();
         
+        // In case there is only one element in the list, just return it right away
+        if(nums.length == 1 && k == 1){
+        	return Arrays.asList(nums[0]);
+        }
 
         // Storing the element and repeated element number in the map
         for(int i = 0; i < nums.length; i++){
@@ -23,24 +26,37 @@ public class FindTopFrequentElementsFunction {
         	// getOrDefault is for when the value is null, it will store as 0 as default
         	map.put(nums[i], map.getOrDefault(nums[i],0)+1);
         }
+        
+        System.out.println("Key:values = " + map);
     
-        List<Integer>[] bucket = new List[nums.length + 1];
+        // nums.length + 1 in case there is only one number in nums ex: [1,1,1,1,1]
+        List<Integer>[] bucket = new ArrayList[nums.length + 1];
         
         for(int key : map.keySet()){
             int mostRepeated = map.get(key);
             
+            // If the current index of array is empty, then make a new list inside
             if(bucket[mostRepeated] == null){
-                bucket[mostRepeated] = new LinkedList<>();
+                bucket[mostRepeated] = new ArrayList<>();
             }
+            
+            // Adding the key with the same repeated number of times in the list
             bucket[mostRepeated].add(key);
+            System.out.println("" + Arrays.toString(bucket));
         }
         
         List<Integer> solution = new ArrayList<>();
         
-        for(int i=bucket.length-1; i>0 && k>0; --i){
-            if(bucket[i] != null){
-                solution.addAll(bucket[i]);
-                 k -= bucket[i].size();
+        for(int end = bucket.length - 1; end > 0 && k > 0; --end){
+        	// Keep looping from the end of the element to not null
+        	// Which we know that the most repeated key is in that list
+            if(bucket[end] != null){
+            	// Add all the elements in the list into the list
+                solution.addAll(bucket[end]);
+                
+                // k will then get subtract by the size of the list that
+                // just got added to the solution list
+                k = k - bucket[end].size();
             }
             
         }
