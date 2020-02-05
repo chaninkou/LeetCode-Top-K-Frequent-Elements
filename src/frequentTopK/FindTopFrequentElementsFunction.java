@@ -61,6 +61,16 @@ public class FindTopFrequentElementsFunction {
             
         }
         
+        // This is for unique case where 		
+        // int[] nums = {1,1,1,2,2,2};
+		// int k = 1;
+        // [null, null, null, [1, 2], null, null, null]
+        // But we only want one element in the solution, keep removing
+        while(k < 0){
+        	solution.remove(solution.size() - 1);
+        	k++;
+        }
+        
         return solution;
     }
 }
