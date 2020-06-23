@@ -13,6 +13,6 @@ public class Main {
 		
 		FindTopFrequentElementsFunction solution = new FindTopFrequentElementsFunction();
 		
-		System.out.println("Solution: " + solution.topKFrequent(nums, k));
+		System.out.println("Solution: " + Arrays.toString(solution.topKFrequent(nums, k)));
 	}
 }

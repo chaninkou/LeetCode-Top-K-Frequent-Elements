@@ -7,7 +7,48 @@ import java.util.List;
 import java.util.Map;
 
 public class FindTopFrequentElementsFunction {
-    public List<Integer> topKFrequent(int[] nums, int k) {
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        for(int num : nums){
+            map.put(num, map.getOrDefault(num, 0) + 1);            
+        }
+        
+        List<Integer>[] buckets = new ArrayList[nums.length + 1];
+        
+        // Add whichever key to the appears bucket
+        for(int key : map.keySet()){
+            int numOfAppear = map.get(key);
+            
+            if(buckets[numOfAppear] == null){
+                buckets[numOfAppear] = new ArrayList<>();
+            }
+            
+            buckets[numOfAppear].add(key);
+        }
+        
+        List<Integer> solution = new ArrayList<>();
+        
+        // The last element of the bucket is the most appear
+        for(int end = buckets.length - 1; end > 0 && k > 0; end--){
+            if(buckets[end] != null){
+                solution.addAll(buckets[end]);
+                
+                k -= buckets[end].size();
+            }
+        }
+        
+        // Convert list to array
+        int[] result = new int[solution.size()];
+        
+        for(int i = 0; i < solution.size(); i++){
+            result[i] = solution.get(i);
+        }
+        
+        return result;
+    }
+    
+    public List<Integer> topKFrequent2(int[] nums, int k) {
     	// Key as the element and value as the most repeated element
         Map<Integer, Integer> map = new HashMap<>();
         
