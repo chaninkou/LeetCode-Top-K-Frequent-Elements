@@ -1,4 +1,4 @@
-package frequentTopK;
+package leetcode347;
 
 import java.util.ArrayList;
 import java.util.Arrays;
